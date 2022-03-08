@@ -2,6 +2,10 @@
     "name": "laravel-routes-list",
     "displayName": "Laravel Routes List",
     "description": "Provides view with routes list",
+    "repository": {
+        "url": "https://github.com/SergeyKasyanov/vscode-laravel-routes-list",
+        "type": "github"
+    },
     "version": "0.0.1",
     "engines": {
         "vscode": "^1.65.0"
