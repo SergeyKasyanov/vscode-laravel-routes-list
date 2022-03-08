@@ -1,0 +1,129 @@
+{
+    "name": "laravel-routes-list",
+    "displayName": "Laravel Routes List",
+    "description": "Provides view with routes list",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.65.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onView:routesList.viewRoutes",
+        "onCommand:routesList.refreshRoutes"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "routesList.refreshRoutes",
+                "title": "Refresh",
+                "category": "Routes List",
+                "icon": {
+                    "dark": "resources/dark/refresh.svg",
+                    "light": "resources/light/refresh.svg"
+                }
+            },
+            {
+                "command": "routesList.copyUri",
+                "title": "Copy Uri"
+            },
+            {
+                "command": "routesList.copyName",
+                "title": "Copy Name"
+            },
+            {
+                "command": "routesList.copyAction",
+                "title": "Copy Action"
+            }
+        ],
+        "views": {
+            "explorer": [
+                {
+                    "id": "routesList.viewRoutes",
+                    "name": "Routes List",
+                    "icon": "resources/direction.svg",
+                    "contextualTitle": "Routes List"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "routesList.refreshRoutes",
+                    "when": "view == routesList.viewRoutes",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "routesList.copyUri",
+                    "when": "view == routesList.viewRoutes && viewItem == routeListItem"
+                },
+                {
+                    "command": "routesList.copyName",
+                    "when": "view == routesList.viewRoutes && viewItem == routeListItem"
+                },
+                {
+                    "command": "routesList.copyAction",
+                    "when": "view == routesList.viewRoutes && viewItem == routeListItem"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Routes List",
+            "properties": {
+                "routesList.phpExecutable": {
+                    "type": "string",
+                    "default": "php",
+                    "title": "PHP Executable",
+                    "description": "Path to PHP executable. By default uses global php executable."
+                },
+                "routesList.shownHttpMethods": {
+                    "type": "array",
+                    "default": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "PATCH",
+                        "DELETE"
+                    ],
+                    "title": "HTTP Methods",
+                    "description": "Routes of witch methods should be shown in Routes List"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js",
+        "vscode:prepublish": "npm run esbuild-base -- --minify",
+        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+        "esbuild": "npm run esbuild-base -- --sourcemap",
+        "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+        "test-compile": "tsc -p ./"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.65.0",
+        "@types/glob": "^7.2.0",
+        "@types/mocha": "^9.1.0",
+        "@types/node": "14.x",
+        "@typescript-eslint/eslint-plugin": "^5.12.1",
+        "@typescript-eslint/parser": "^5.12.1",
+        "eslint": "^8.9.0",
+        "glob": "^7.2.0",
+        "mocha": "^9.2.1",
+        "typescript": "^4.5.5",
+        "ts-loader": "^9.2.6",
+        "webpack": "^5.69.1",
+        "webpack-cli": "^4.9.2",
+        "@vscode/test-electron": "^2.1.2"
+    }
+}
